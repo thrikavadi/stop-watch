@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stopwatch</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: lavender;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #display {
+      font-size: 48px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .buttons button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .buttons button:hover {
+      background-color: #ddd;
+    }
+
+    .start { background-color: #4CAF50; color:blue; }
+    .pause { background-color: #f0ad4e; color:blue; }
+    .reset { background-color: #d9534f; color: blue; }
+  </style>
+</head>
+<body>
+
+  <div id="display">00:00:00</div>
+
+  <div class="buttons">
+    <button class="start" onclick="start()">Start</button>
+    <button class="pause" onclick="pause()">Pause</button>
+    <button class="reset" onclick="reset()">Reset</button>
+  </div>
+
+  <script>
+    let elapsedTime = 0;
+    let timerInterval = null;
+    let isRunning = false;
+
+    function updateTime() {
+      elapsedTime += 1000;
+      const hours = String(Math.floor(elapsedTime / 3600000)).padStart(2, '0');
+      const minutes = String(Math.floor((elapsedTime % 3600000) / 60000)).padStart(2, '0');
+      const seconds = String(Math.floor((elapsedTime % 60000) / 1000)).padStart(2, '0');
+      document.getElementById('display').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    function start() {
+      if (!isRunning) {
+        timerInterval = setInterval(updateTime, 1000);
+        isRunning = true;
+      }
+    }
+
+    function pause() {
+      clearInterval(timerInterval);
+      isRunning = false;
+    }
+
+    function reset() {
+      clearInterval(timerInterval);
+      elapsedTime = 0;
+      isRunning = false;
+      document.getElementById('display').textContent = '00:00:00';
+    }
+  </script>
+
+</body>
+</html>
